@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,25 +15,42 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="DotNetSeleniumExtras.PageObjects" Version="3.11.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="Selenium.Support" Version="4.24.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.24.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="128.0.6613.11900" />
+    <PackageReference Include="ExtentReports" Version="5.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.50.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
+    <PackageReference Include="Selenium.Support" Version="4.29.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.29.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="133.0.6943.12600" />
     <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.9.40" />
-    <PackageReference Include="nunit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
-    <PackageReference Include="FluentAssertions" Version="6.2.0" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.9.74" />
+    <PackageReference Include="nunit" Version="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    <PackageReference Include="FluentAssertions" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Drivers\" />
+    <Folder Include="TestResults\" />
     <Folder Include="Support\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Utilities\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.Runsettings</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Cvs\Prices.Csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Utilities\Settings.Runsettings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

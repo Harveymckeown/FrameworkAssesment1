@@ -1,25 +1,46 @@
-﻿using NUnit.Framework;
+﻿using AventStack.ExtentReports;
+using AventStack.ExtentReports.Gherkin.Model;
+using BoDi;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TechTalk.SpecFlow;
 
 namespace FrameworkAssesment1.Utilities
 {
     [Binding]
     internal class ScenarioHooks
     {
-        private IWebDriver driver;
+        private IObjectContainer _container;
+        private IWebDriver _driver = DriverManager.GetDriver();
+        private static ExtentReports _extent = ExtentReportManager.GetInstance();
+        private ExtentTest _scenario;
+
+        public ScenarioHooks(IObjectContainer objectContainer)
+        {
+            _container = objectContainer;
+        }
+
+        [BeforeScenario]
+        public void BeforeScenario(ScenarioContext scenarioContext)
+        {
+            _scenario = _extent.CreateTest<Scenario>(scenarioContext.ScenarioInfo.Title);
+        }
 
         [AfterScenario]
-        public void AfterScenario(ScenarioContext ScenarioContext)
+        public void AfterScenario(ScenarioContext scenarioContext)
         {
-            ScreenShot screenShot = new ScreenShot();
-            screenShot.TakeScreenShot(ScenarioContext);
+            if (scenarioContext.TestError != null)
+            {
+                _scenario.Fail(scenarioContext.TestError.Message);
+            }
+            else
+            {
+                _scenario.Pass("Test passed");
+            }
 
-            driver.Close();
+            ScreenShot screenShot = new ScreenShot();
+            screenShot.TakeScreenShot(scenarioContext);
+
+            _extent.Flush();
         }
     }
 }

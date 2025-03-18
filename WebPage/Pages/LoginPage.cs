@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using DesktopFrameworkAssesment.Utility;
+using FluentAssertions;
+using FrameworkAssesment1.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -13,30 +15,22 @@ namespace FrameworkHM.Source.Pages
 {
     public class LoginPage
     {
-        private readonly IWebDriver _driver;
-        private readonly WebDriverWait _wait;
-        public IWebElement usernameElement => _driver.FindElement(By.Id("user-name"));
-
-        public IWebElement passwordElement => _driver.FindElement(By.Id("password"));
-
-        public IWebElement loginbutton => _driver.FindElement(By.Id("login-button"));
-        public IWebElement errormessage => _driver.FindElement(By.Id("login_button_container"));
-
-        public LoginPage(IWebDriver driver) 
-        {
-            _driver = driver;
-            _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-        }
+        public IWebElement UsernameElement => new ElementHelper().WaitForElement(By.Id("user-name"));
+        public IWebElement PasswordElement => new ElementHelper().WaitForElement(By.Id("password"));
+        public IWebElement Loginbutton => new ElementHelper().WaitForElement(By.Id("login-button"));
+        public IWebElement Errormessage => new ElementHelper().WaitForElement(By.Id("login_button_container"));
 
         public void Login(string username,string password)
         {
-            usernameElement.SendKeys(username);
-            passwordElement.SendKeys(password);
-            loginbutton.Click();
+            UsernameElement.Click();
+            UsernameElement.SendKeys(username);
+            PasswordElement.Click();
+            PasswordElement.SendKeys(password);
+            Loginbutton.Click();
         }
         public void ErrorIsDisplayed()
         {
-            Assert.That(errormessage.Displayed);
+            Assert.That(Errormessage.Displayed);
         }
     }
 }

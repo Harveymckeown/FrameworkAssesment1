@@ -1,0 +1,8 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<RunSettings>
+	<TestRunParameters>
+		<Parameter name="Browser" value="edge" />
+		<Parameter name="Location" value="docker" />
+		<Parameter name="Url" value="https://www.saucedemo.com/"/>
+	</TestRunParameters>
+</RunSettings>

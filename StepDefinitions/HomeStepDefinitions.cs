@@ -1,4 +1,6 @@
-﻿using FrameworkHM.Source.Pages;
+﻿using FrameworkAssesment1.Utilities;
+using FrameworkHM.Source.Pages;
+using FrameworkProject.StepDefinitions;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
@@ -10,41 +12,43 @@ using System.Threading.Tasks;
 namespace FrameworkAssesment1.StepDefinitions
 {
     [Binding]
-
-
-    internal class HomeStepDefinitions
+    internal class HomeStepDefinitions 
     {
-        private IWebDriver driver;
-
+        Homepage _homePage = new Homepage();
         [Then(@"Compare prices")]
         public void ThenComparePrices()
         {
-            var Homepage = new Homepage(driver);
-            int Num = 0;
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Prices.Csv");
-            StreamReader reader = null;
+            int num = 0;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cvs", "Prices.csv");
 
-            if (File.Exists(path))
+            if (!File.Exists(path))
             {
-                using (reader = new StreamReader(File.OpenRead(path)))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        //TODO: var changes
-                        var Item = line.Split(';');
-                        var Price = Item[1];
-                        var PriceWebsite = Homepage.GetPriceWebpage(Num);
-                        Assert.That(Price, Is.EqualTo(PriceWebsite));
-                        Num++;
-                    }
-                }              
+                Console.WriteLine("File does not exist");
+                return;
             }
-            else
+
+            using (StreamReader reader = new StreamReader(File.OpenRead(path)))
             {
-                Console.WriteLine("File does not Exsist");
+                string line;
+                List<decimal> filePrices = new List<decimal>();
+                List<string> priceWebsite = _homePage.FindPrices();
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] item = line.Split(';');
+                    if (item.Length < 2) continue;
+
+                    if (decimal.TryParse(item[1].Trim().Replace("$", ""), out decimal filePrice) &&
+                        decimal.TryParse(priceWebsite[num].Trim().Replace("$", ""), out decimal webPrice))
+                    {
+                        filePrices.Add(filePrice);
+                        Assert.That(webPrice, Is.EqualTo(filePrice));
+                        Console.WriteLine(webPrice.ToString());
+                        Console.WriteLine(filePrice.ToString());
+                    }
+                    num++;
+                }
             }
         }
-
     }
 }

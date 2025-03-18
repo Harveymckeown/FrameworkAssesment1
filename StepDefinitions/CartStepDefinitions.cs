@@ -1,27 +1,24 @@
-﻿using FrameworkHM.Source.Pages;
+﻿using FrameworkAssesment1.Utilities;
+using FrameworkHM.Source.Pages;
 using OpenQA.Selenium;
+using NUnit.Framework; 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FrameworkProject.StepDefinitions;
 
 namespace FrameworkAssesment1.StepDefinitions
 {
     [Binding]
-
     internal class CartStepDefinitions
     {
-        private IWebDriver driver;
-
         [When(@"I add an item to my cart")]
         public void WhenIAddAnItemToMyCart()
-        {
-            var homepage = new Homepage(driver);
-            var cartpage = new CartPage(driver);
-            homepage.AddToCart();
-            homepage.Cartbutton.Click();
-            cartpage.Checkout();
+        {         
+                Homepage homepage = new Homepage();
+                CartPage cartPage = new CartPage();
+
+                homepage.AddToCart();
+                homepage.OpenCart(); 
+                cartPage.Checkout();
         }
     }
 }

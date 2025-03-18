@@ -7,23 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using FrameworkAssesment1.Utilities;
 
 namespace FrameworkHM.Source.Pages
 {
     public class CheckoutPageComplete
     {
-        private IWebDriver _driver;
-        private WebDriverWait _wait;
-
-
-        public CheckoutPageComplete(IWebDriver driver)
-        {
-            _driver = driver;
-            _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-        }
+        private IWebDriver Driver = DriverManager.GetDriver();
         public void Finished()
         {
-            Assert.That(_driver.Url.Contains("checkout-complete"));
+            Assert.That(Driver.Url.Contains("checkout-complete"));
         }
     }
 }

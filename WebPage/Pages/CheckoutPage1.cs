@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using DesktopFrameworkAssesment.Utility;
+using FrameworkAssesment1.Utilities;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using System;
@@ -11,28 +13,21 @@ namespace FrameworkHM.Source.Pages
 {
     public class CheckoutPage1
     {
-        private IWebDriver _driver;
-        private WebDriverWait _wait;
 
-        public IWebElement firstName => _driver.FindElement(By.Id("first-name"));
+        public IWebElement FirstName => new ElementHelper().WaitForElement(By.Id("first-name"));
 
-        public IWebElement lastName => _driver.FindElement(By.Id("last-name"));
+        public IWebElement LastName => new ElementHelper().WaitForElement(By.Id("last-name"));
 
-        public IWebElement postCode => _driver.FindElement(By.Id("postal-code"));
+        public IWebElement PostCode => new ElementHelper().WaitForElement(By.Id("postal-code"));
 
-        public IWebElement continueButton => _driver.FindElement(By.Id("continue"));
+        public IWebElement ContinueButton => new ElementHelper().WaitForElement(By.Id("continue"));
 
-        public CheckoutPage1(IWebDriver driver)
-        {
-            _driver = driver;
-            _wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-        }
         public void EnterDetails(string firstname, string lastname, string postcode)
         {
-            firstName.SendKeys(firstname);
-            lastName.SendKeys(lastname);
-            postCode.SendKeys(postcode);
-            continueButton.Click();
+            FirstName.SendKeys(firstname);
+            LastName.SendKeys(lastname);
+            PostCode.SendKeys(postcode);
+            ContinueButton.Click();
             
         }
     }

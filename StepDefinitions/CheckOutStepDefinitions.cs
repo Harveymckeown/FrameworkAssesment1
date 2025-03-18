@@ -1,4 +1,6 @@
-﻿using FrameworkHM.Source.Pages;
+﻿using FrameworkAssesment1.Utilities;
+using FrameworkHM.Source.Pages;
+using FrameworkProject.StepDefinitions;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -9,31 +11,29 @@ using System.Threading.Tasks;
 namespace FrameworkAssesment1.StepDefinitions
 {
     [Binding]
-
-    internal class CheckOutStepDefinitions
+    internal class CheckOutStepDefinitions  
     {
-        private IWebDriver driver;
+        CheckoutPage1 checkoutPage1 = new CheckoutPage1();
+        CheckoutPage2 checkoutPage2 = new CheckoutPage2();
+        CheckoutPageComplete checkoutPageComplete = new CheckoutPageComplete();
 
-        [Then(@"I add my (.*),(.*) and (.*)")]
+        [When(@"I add my (.*),(.*) and (.*)")]
         public void ThenIAddMyDetails(string name, string lastname, string postcode)
         {
-            CheckoutPage1 checkout = new CheckoutPage1(driver);
-            checkout.EnterDetails(name, lastname, postcode);
+            checkoutPage1.EnterDetails(name, lastname, postcode);
         }
 
-
-        [Then(@"i purchice item")]
-        public void ThenIPurchiceItem()
+        [When(@"I purchice item")]
+        public void ThenIPurchaseItem()
         {
-            CheckoutPage2 checkout2 = new CheckoutPage2(driver);
-            checkout2.Finish();
+            checkoutPage2.Finish();
         }
 
-        [Then(@"i have Bought the Item")]
+        [Then(@"I have Bought the Item")]
         public void ThenIHaveBoughtTheItem()
         {
-            CheckoutPageComplete completepage = new CheckoutPageComplete(driver);
-            completepage.Finished();
+            checkoutPageComplete.Finished();
         }
     }
+
 }
